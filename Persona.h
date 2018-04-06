@@ -2,10 +2,10 @@
 #define _PERSONA_H_
 typedef struct
 {
-	char nick[10];
-	char contra[10];
-	char nombre[10];
-	char apellido[10];
+	char nick[15];
+	char contra[15];
+	char nombre[15];
+	char apellido[15];
 	int edad;
 }Persona;
 typedef struct{
@@ -15,4 +15,6 @@ typedef struct{
 	Persona pers;
 	char cod_administrador[8];
 }Administrador;
+void MostrarUsuario(Usuario u);
+void MostrarAdmin(Administrador a);
 #endif

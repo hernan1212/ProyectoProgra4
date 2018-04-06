@@ -1,12 +1,13 @@
 #ifndef _JUEGO_H_
 #define _JUEGO_H_
+#include "Persona.h"
 typedef struct
 {
-	char nick[10];
-	char contra[10];
-	char nombre[10];
-	char apellido[10];
-	int edad;
+	char nombre[15];
+	char genero[15];
+	Persona Creador;
+	char ejecutable[20];
+	int Precio;
 }Juego;
 void PrintJuego(Juego j);
 #endif

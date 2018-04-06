@@ -95,12 +95,42 @@ int LeerAdministradoresBin(Administrador* admins)
   return numAdmins;
 
 }
+int LeerJuegosBin(Juego* juegos)
+{
+  FILE * f;	
+  int numJuegos;
+  int i;
+
+  f = fopen("Juegos.dat", "rb");
+	if(f == NULL)
+	{
+		printf("No hay juegos registrados\n");
+		return 0;
+	}
+
+  numJuegos = fgetc(f);
+
+  fread(juegos, sizeof(Juego), numJuegos, f);
+
+  for (i = 0; i < numJuegos; i++)
+    {
+      printf("%s\n",&juegos[i].nombre);
+    }
+
+
+  fclose(f);	
+
+  return numJuegos;
+
+
+}
 int escribirUsuariosBin(Usuario* users, int len)
 {
 	FILE* f;
 	f=fopen("Users.dat", "wb");
 //escribir la cantidad de elementos
   fputc(len, f); 
+
   //escribir datos binarios
   fwrite(users, sizeof(Usuario), len, f);	
   fclose(f);
@@ -114,9 +144,22 @@ int escribirAdministradoresBin(Administrador* admins, int len)
 	f=fopen("Admins.dat", "wb");
 //escribir la cantidad de elementos
   fputc(len, f); 
-  //escribir datos binarios
 
+  //escribir datos binarios
   fwrite(admins, sizeof(Administrador), len, f);
+  fclose(f);
+  return 0;
+}
+int escribirJuegosBin(Juego* juegos, int len)
+{
+	FILE* f;
+
+	f=fopen("Juegos.dat", "wb");
+//escribir la cantidad de elementos
+  fputc(len, f); 
+
+  //escribir datos binarios
+  fwrite(juegos, sizeof(Juego), len, f);
   fclose(f);
   return 0;
 }

@@ -1,12 +1,15 @@
 #ifndef _MENUP_H_
 #define _MENUP_H_
 #include "Persona.h"
+#include "Juego.h"
 #include <stdbool.h>
-int Menu(Persona p, bool t);
-void ListaJuegos();
-void Jugar();
-void Perfil();
+int MenuU(Usuario u);
+int MenuA(Administrador a);
+void ListaJuegos(Juego* j, int control1);
+void Jugar(Juego* j, int control1);
+void PerfilU(Usuario u);
+void PerfilA(Administrador a);
 void Estadisticas();
-void SubirJuego();
+int SubirJuego(Juego* j, Persona p, int control1);
 void GestionAplicacion();
 #endif

@@ -33,7 +33,7 @@ int IniciarSesion()
 		{
 			free(users);
 			free(admins);
-			return Menu(pers, false);
+			return MenuU(users[i]);
 		}
 		i++;
 	}
@@ -44,7 +44,7 @@ int IniciarSesion()
 		{
 			free(users);
 			free(admins);
-			return Menu(pers, true);
+			return MenuA(admins[i]);
 		}
 		i++;
 	}
@@ -85,10 +85,8 @@ int Registrar()
 		i=0;
 		while(control1>i)
 		{
-		printf("%s\n",&users[i].pers.nick);
 		if(strcmp(pers.nick,users[i].pers.nick)==0)
 		{
-			printf("%s\n",&users[i].pers.nick);
 			printf("El nick ya existe\n");
 			bienhecho=false;
 		}
@@ -113,6 +111,7 @@ int Registrar()
 
 		printf("Inserte la contraseña del usuario:");
 		scanf("%s",&pers.contra);
+		printf("%s\n",&pers.contra);
 		printf("Inserte el nombre del usuario:");
 		scanf("%s",&pers.nombre);
 		printf("Inserte el apellido del usuario:");
@@ -125,7 +124,7 @@ int Registrar()
 		escribirUsuariosBin(users,control1+1);
 		free(users);
 		free(admins);
-		return Menu(pers, false);
+		return MenuU(usu);
 
 	}
 	else if(opcionRegistro)
@@ -144,7 +143,6 @@ int Registrar()
 		{
 		if(strcmp(pers.nick,users[i].pers.nick)==0)
 		{
-			printf("%s\n",&users[i].pers.nick);
 			printf("El nick ya existe\n");
 			bienhecho=false;
 		}
@@ -174,13 +172,15 @@ int Registrar()
 		scanf("%s",&pers.apellido);
 		printf("Inserte la edad del administrador:");
 		scanf("%i",&pers.edad);
-		printf("Inserte el codigo del administrador:");
-		scanf("%i",&admin.cod_administrador);
+		printf("Inserte el codigo del administrador, debe ser un numero:");
+		scanf("%s",&admin.cod_administrador);
+		printf("%s\n",&admin.cod_administrador);
 		admin.pers=pers;
 		admins[control2]=admin;
+		printf("%s\n",&admins[control2].cod_administrador);
 		escribirAdministradoresBin(admins,control2+1);
 		free(users);
 		free(admins);
-		return Menu(pers, true);
+		return MenuA(admin);
 	}
 }
