@@ -1,5 +1,6 @@
 #ifndef _PERSONA_H_
 #define _PERSONA_H_
+#include <stdbool.h>
 typedef struct
 {
 	char nick[15];
@@ -10,6 +11,7 @@ typedef struct
 }Persona;
 typedef struct{
 	Persona pers;
+	bool bloq;
 }Usuario;
 typedef struct{
 	Persona pers;

@@ -70,10 +70,12 @@ while(vidas!=0 && restantes!=0)
 if(vidas==0)
 {
 printf ("Has perdido\n");	
+return 0;
 }
 if(restantes==0)
 {
 printf ("Has ganado\n");
+return 1;
 }
 return 0;
 }

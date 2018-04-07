@@ -5,7 +5,15 @@
 
 void MostrarUsuario(Usuario u)
 {
-	printf("Nick: %s,\nContrasena: %s, \nNombre: %s, \nApellido: %s, \nEdad: %i\n", &u.pers.nick, &u.pers.contra, &u.pers.nombre, &u.pers.apellido, u.pers.edad);
+	if(u.bloq)
+	{
+		printf("Nick: %s, \nContrasena: %s, \nNombre: %s, \nApellido: %s, \nEdad: %i,\nEste usuario esta bloqueado\n", &u.pers.nick, &u.pers.contra, &u.pers.nombre, &u.pers.apellido, u.pers.edad);
+	}
+	else
+	{
+		printf("Nick: %s,\nContrasena: %s, \nNombre: %s, \nApellido: %s, \nEdad: %i,\nEste usuario no esta bloqueado\n", &u.pers.nick, &u.pers.contra, &u.pers.nombre, &u.pers.apellido, u.pers.edad);
+	}
+
 }
 void MostrarAdmin(Administrador a)
 {

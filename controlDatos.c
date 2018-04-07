@@ -52,7 +52,7 @@ int LeerUsuariosBin(Usuario* users)
 	
 	if(f == NULL)
 	{
-		printf("No hay usuarios registrados\n");
+		//printf("No hay usuarios registrados\n");
 		return 0;
 	}
   numUsers = fgetc(f);
@@ -60,7 +60,7 @@ int LeerUsuariosBin(Usuario* users)
   fread(users, sizeof(Usuario), numUsers, f);
   for (i = 0; i < numUsers; i++)
     {
-		printf("%s\n",&users[i].pers.nick);
+		//printf("%s\n",&users[i].pers.nick);
     }
 
   fclose(f);	
@@ -76,7 +76,7 @@ int LeerAdministradoresBin(Administrador* admins)
   f = fopen("Admins.dat", "rb");
 	if(f == NULL)
 	{
-		printf("No hay administradores registrados\n");
+		//printf("No hay administradores registrados\n");
 		return 0;
 	}
 
@@ -86,7 +86,7 @@ int LeerAdministradoresBin(Administrador* admins)
 
   for (i = 0; i < numAdmins; i++)
     {
-      printf("%s\n",&admins[i].pers.nick);
+      //printf("%s\n",&admins[i].pers.nick);
     }
 
 
@@ -104,7 +104,7 @@ int LeerJuegosBin(Juego* juegos)
   f = fopen("Juegos.dat", "rb");
 	if(f == NULL)
 	{
-		printf("No hay juegos registrados\n");
+		//printf("No hay juegos registrados\n");
 		return 0;
 	}
 
@@ -114,13 +114,42 @@ int LeerJuegosBin(Juego* juegos)
 
   for (i = 0; i < numJuegos; i++)
     {
-      printf("%s\n",&juegos[i].nombre);
+      //printf("%s\n",&juegos[i].nombre);
     }
 
 
   fclose(f);	
 
   return numJuegos;
+
+
+}
+int LeerPartidasBin(pAhorcado* pa)
+{
+  FILE * f;	
+  int numPa;
+  int i;
+
+  f = fopen("pAhorcado.dat", "rb");
+	if(f == NULL)
+	{
+		//printf("No hay juegos registrados\n");
+		return 0;
+	}
+
+  numPa = fgetc(f);
+
+  fread(pa, sizeof(pAhorcado), numPa, f);
+
+  for (i = 0; i < numPa; i++)
+    {
+      //printf("%s\n",&juegos[i].nombre);
+    }
+
+
+  fclose(f);	
+
+  return numPa;
 
 
 }
@@ -160,6 +189,19 @@ int escribirJuegosBin(Juego* juegos, int len)
 
   //escribir datos binarios
   fwrite(juegos, sizeof(Juego), len, f);
+  fclose(f);
+  return 0;
+}
+int escribirPartidasBin(pAhorcado* pa, int len)
+{
+	FILE* f;
+
+	f=fopen("pAhorcado.dat", "wb");
+//escribir la cantidad de elementos
+  fputc(len, f); 
+
+  //escribir datos binarios
+  fwrite(pa, sizeof(pAhorcado), len, f);
   fclose(f);
   return 0;
 }

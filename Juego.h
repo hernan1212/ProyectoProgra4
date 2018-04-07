@@ -6,7 +6,7 @@ typedef struct
 	char nombre[15];
 	char genero[15];
 	Persona Creador;
-	char ejecutable[20];
+	char ejecutable[40];
 	int Precio;
 }Juego;
 void PrintJuego(Juego j);

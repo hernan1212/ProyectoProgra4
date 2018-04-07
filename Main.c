@@ -6,9 +6,9 @@ int main()
 {
 	int opcion;
 	int resultado;
-	printf("Introduce la opcion que desea hacer: \n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
+	printf("Introduce la opcion que desea hacer y recuerda que si no tienes una cuenta debes registrarte: \n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
 	if (scanf("%i", &opcion) != 1||(opcion<1||opcion>3)) {
-   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
+   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion y recuerda que si no tienes una cuenta debes registrarte:\n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
   					while (getchar() != '\n');
   				}
 
@@ -26,12 +26,12 @@ int main()
 				{
 					if(resultado==-1)
 					{
-						printf("El usuario o la contraseña no son correctos, intentalo otra vez :).");
+						printf("El usuario o la contrasena no son correctos, intentalo otra vez.\n");
 					}
-					printf("Introduce la opcion que desea hacer: \n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
+					printf("Introduce la opcion que desea hacer y recuerda que si no tienes una cuenta debes registrarte: \n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
 					if (scanf("%i", &opcion) != 1||(opcion<1||opcion>3)) 
 					{
-   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
+   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion y recuerda que si no tienes una cuenta debes registrarte:\n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
   					while (getchar() != '\n');
   					}
 				}
@@ -44,9 +44,9 @@ int main()
 			}
 			else
 			{
-				printf("Introduce la opcion que desea hacer: \n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
+				printf("Introduce la opcion que desea hacer y recuerda que si no tienes una cuenta debes registrarte: \n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
 				if (scanf("%i", &opcion) != 1||(opcion<1||opcion>3)) {
-   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
+   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion y recuerda que si no tienes una cuenta debes registrarte:\n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
   					while (getchar() != '\n');
   				}
 			}
@@ -56,7 +56,7 @@ int main()
 				break;
 			default:
 				while (scanf("%i", &opcion) != 1||(opcion<1||opcion>3)) {
-   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
+   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion y recuerda que si no tienes una cuenta debes registrarte:\n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir.\n");
   					while (getchar() != '\n');
 					 
  				}

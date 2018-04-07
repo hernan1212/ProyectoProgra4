@@ -5,5 +5,5 @@
 
 void PrintJuego(Juego j)
 {
-	printf("Nombre: %s, Genero: %s, Nick del creador: %s, Precio: %i euros", &j.nombre, &j.genero, &j.Creador.nick, j.Precio);
+	printf("Nombre: %s, Genero: %s, Nick del creador: %s, Precio: %i euros\n", &j.nombre, &j.genero, &j.Creador.nick, j.Precio);
 }

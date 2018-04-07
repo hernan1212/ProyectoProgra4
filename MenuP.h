@@ -11,5 +11,5 @@ void PerfilU(Usuario u);
 void PerfilA(Administrador a);
 void Estadisticas();
 int SubirJuego(Juego* j, Persona p, int control1);
-void GestionAplicacion();
+void GestionAplicacion(Juego* j, int control1);
 #endif
