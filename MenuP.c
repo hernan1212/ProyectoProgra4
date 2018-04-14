@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "Persona.h"
+#include "IniReg.h"
 #include "Partida.h"
 #include "Juego.h"
 #include "ControlDatos.h"
@@ -22,7 +23,7 @@ int MenuU(Usuario u)
 	do
 	{
 	printf("Bienvenido a aPointlessApplication, eliga lo que desea hacer: \n 1.- Listas de juegos. \n 2.- Jugar. \n 3.- Mi Perfil.\n 4.- Estadisticas.\n 5.- Subir juego.\n 6.- Cerrar sesion.\n 7.- Salir.\n");
-	scanf("%i",&opcion);								
+	LeerValorInt(&opcion);								
 
 	
 		switch(opcion)
@@ -50,11 +51,8 @@ int MenuU(Usuario u)
 				return 1;
 				break;
 			default:
-				while (scanf("%i", &opcion) != 1||(opcion<1||opcion>7)) {
    					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.- Listas de juegos. \n 2.- Jugar. \n 3.- Mi Perfil.\n 4.- Estadisticas.\n 5.- Subir juego.\n 6.- Cerrar sesion.\n 7.- Salir.\n");
-  					while (getchar() != '\n');
-					 
- 				}
+  					LeerValorInt(&opcion);
 				break;
 
 		}

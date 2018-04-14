@@ -33,7 +33,7 @@ int IniciarSesion()
 		{
 			if(users[i].bloq)
 			{
-				printf("Lo siento, ha sido bloqueado indefinidamente.\n");
+				printf("Lo siento, ha sido bloqueado indefinidamente.");
 				return 0;
 			}
 			free(users);
@@ -62,125 +62,94 @@ int Registrar()
 	Usuario* users;
 	Administrador* admins;
 	Persona pers;
-	int opcionRegistro; 
+	int *opcionRegistro; 
 	int control1;
 	int control2;
-	int i;
 	bool bienhecho;
 	bool posible;
 	
 	printf("Has decidido registrarte,\n");
 	printf("Elige una opcion:\n 1.- Si deseas registrarte como un usuario. \n 2.- Si deseas registrarte como un administrador. \n");
-	scanf("%i",&opcionRegistro);
+	opcionRegistro=malloc(sizeof(int));
+	while(LeerValorInt(opcionRegistro)==-1||(*opcionRegistro<1||*opcionRegistro>2))
+	{
+		printf(" Te has confundido. Vuelve a elegir una opcion:\n 1.- Si deseas registrarte como un usuario. \n 2.- Si deseas registrarte como un administrador. \n");
+	}
   	users = (Usuario*)malloc(30 * sizeof(Usuario));	
   	admins = (Administrador*)malloc(15 * sizeof(Administrador));	
 	control1=LeerUsuariosBin(users);
 	control2=LeerAdministradoresBin(admins);
 
-	if(opcionRegistro==1)
+	if(*opcionRegistro==1)
 	{
 		Usuario usu;
 		printf("Has elegido registrarte como un usuario.\n");
 
 		do
 		{
-		bienhecho=true;
-		posible=true;
-		printf("Inserte el nick del usuario (de 1 a 14 caracteres): ");
-		scanf("%s",&pers.nick);	
-		i=0;
-		while(control1>i)
-		{
-		if(strcmp(pers.nick,users[i].pers.nick)==0)
-		{
-			printf("El nick ya existe.\n");
-			bienhecho=false;
-		}
+			bienhecho=true;
+			printf("Inserte el nick del usuario (de 1 a 14 caracteres): ");
+			if(LeerValor(pers.nick,14)==-1)
+			{
 
-		i++;
+				printf("El nick no es adecuado.\n");
+				bienhecho=false;
+			}
+			for(int i=0;control1>i;i++)
+			{
+				if(strcmp(pers.nick,users[i].pers.nick)==0)
+				{
+					printf("El nick ya existe.\n");
+					bienhecho=false;
+				}
+			}
 
-		}
+			for(int i=0;control2>i;i++)
+			{
+				if(strcmp(pers.nick,admins[i].pers.nick)==0)
+				{
+					printf("El nick ya existe.\n");
+					bienhecho=false;
+				}
+			}
+		}while(bienhecho==false);
 
-		i=0;
-
-		while(control2>i)
+		printf("Inserte la contrasena del usuario (de 1 a 14 caracteres): ");
+		while(LeerValor(pers.contra,14)==-1)
 		{
-		if(strcmp(pers.nick,admins[i].pers.nick)==0)
-		{
-			printf("El nick ya existe.\n");
-			bienhecho=false;
-		}
-
-		i++;
-		}
-		if(strlen(pers.nick)>14)
-		{
-			printf("El nick es demasiado largo.\n");
-			posible=false;
-		}
-		}while(bienhecho==false||posible==false);
-		posible=false;
-		while(posible==false)
-		{
-			posible=true;
+			printf("La contrasena no es adecuada.\n");
 			printf("Inserte la contrasena del usuario (de 1 a 14 caracteres): ");
-			scanf("%s",&pers.contra);
-			if(strlen(pers.contra)>14)
-			{
-				printf("La contrasena es demasiado larga.\n");
-				posible=false;
-			}
-
 		}
-		posible=false;
-		while(posible==false)
+
+		printf("Inserte el nombre del usuario (de 1 a 14 caracteres): ");
+		while(LeerValor(pers.nombre,14)==-1)
 		{
-			posible=true;
+			printf("El nombre no es adecuado.\n");
 			printf("Inserte el nombre del usuario (de 1 a 14 caracteres): ");
-			scanf("%s",&pers.nombre);
-			if(strlen(pers.nombre)>14)
-			{
-				printf("El nombre es demasiado largo.\n");
-				posible=false;
-			}
-
 		}
-		posible=false;
-		while(posible==false)
+
+		printf("Inserte el apellido del usuario (de 1 a 14 caracteres): ");
+		while(LeerValor(pers.apellido,14)==-1)
 		{
-			posible=true;
+			printf("El apellido no es adecuado.\n");
 			printf("Inserte el apellido del usuario (de 1 a 14 caracteres): ");
-			scanf("%s",&pers.apellido);
-			if(strlen(pers.apellido)>14)
-			{
-				printf("El apellido es demasiado largo.\n");
-				posible=false;
-			}
-
 		}
-		posible=false;
-		while(posible==false)
+
+		printf("Inserte la edad del usuario (de 1 a 100 anos): ");
+		while(LeerValorInt(&pers.edad)||pers.edad<1||pers.edad>100)
 		{
-			posible=true;
+			printf("La edad no cumple las condiciones.\n");
 			printf("Inserte la edad del usuario (de 1 a 100 anos): ");
-			if(scanf("%i",&pers.edad)!=1||pers.edad<1||pers.edad>100)
-			{
-				printf("La edad no cumple las condiciones.\n");
-				posible=false;
-			}
-			while (getchar() != '\n');
 		}
 		usu.pers=pers;
 		usu.bloq=false;
 		users[control1]=usu;
-
 		escribirUsuariosBin(users,control1+1);
 		free(users);
 		free(admins);
 		return MenuU(usu);
-
 	}
-	else if(opcionRegistro)
+	else if(*opcionRegistro)
 	{
 		Administrador admin;
 		printf("Has elegido registrarte como un administrador.\n");
@@ -191,8 +160,7 @@ int Registrar()
 		posible=true;
 		printf("Inserte el nick del administrador (de 1 a 14 caracteres): ");
 		scanf("%s",&pers.nick);	
-		i=0;
-		while(control1>i)
+		for(int i=0;control1>i;i++)
 		{
 		if(strcmp(pers.nick,users[i].pers.nick)==0)
 		{
@@ -200,21 +168,15 @@ int Registrar()
 			bienhecho=false;
 		}
 
-		i++;
-
 		}
 
-		i=0;
-
-		while(control2>i)
+		for(int i=0;control2>i;i++)
 		{
 		if(strcmp(pers.nick,admins[i].pers.nick)==0)
 		{
 			printf("El nick ya existe.\n");
 			bienhecho=false;
 		}
-
-		i++;
 		}
 		if(strlen(pers.nick)>14)
 		{
@@ -281,17 +243,13 @@ int Registrar()
 			bienhecho=true;
 			printf("Inserte el codigo del administrador (debe tener 5 caracteres): ");
 			scanf("%s",&admin.cod_administrador);
-			i=0;
-
-			while(control2>i)
+			for(int i=0;control2>i;i++)
 			{
 				if(strcmp(admin.cod_administrador,admins[i].cod_administrador)==0)
 				{
 					printf("El nick ya existe.\n");
 					bienhecho=false;
 				}
-
-			i++;
 			}
 			if(strlen(admin.cod_administrador)!=5)
 			{
@@ -306,4 +264,42 @@ int Registrar()
 		free(admins);
 		return MenuA(admin);
 	}
+}
+
+int LeerValor(char * h, int lenMax)
+{
+	char* line=NULL;
+	size_t len = 0;
+	ssize_t read;
+
+	while((read = getline(&line, &len, stdin))) 
+	{
+		if(strlen(line)>lenMax||strcmp(line,"\n")==0)
+		{	
+   			return -1;
+		}
+		else
+		{
+			sscanf(line, "%s", h);
+			return 0;
+		}
+  	}
+}
+int LeerValorInt(int* h)
+{
+	char* line=NULL;
+	size_t len = 0;
+	ssize_t read;
+
+	while((read = getline(&line, &len, stdin))) 
+	{
+		if(sscanf(line, "%i", h)==1)
+		{	
+   			return 0;
+		}
+		else
+		{
+			return -1;
+		}
+  	}
 }
