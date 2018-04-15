@@ -7,5 +7,12 @@ typedef struct
 	int PartidasJugadas;
 	int PartidasGanadas;
 }pAhorcado;
+typedef struct
+{
+	Persona Jugador;
+	int PartidasJugadas;
+	int PuntMax;
+}pCalc;
 void MostrarPartidaAhorcado(pAhorcado p);
+void MostrarPartidaCalculadora(pCalc p);
 #endif

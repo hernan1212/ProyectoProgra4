@@ -12,7 +12,7 @@ int control;
 FILE* f;
 srand(time(NULL));
 control=rand() % 10;
-f=fopen("lista.txt","r");
+f=fopen("../extras/lista.txt","r");
 	if(f==NULL)
 	{
 		printf("El archivo no existe");

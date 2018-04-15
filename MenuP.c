@@ -14,16 +14,21 @@ int MenuU(Usuario u)
 {
 	int opcion;
 	int control;
-	int controlP;
+	int controlP1;
+	int controlP2;
 	Juego* juegos;
 	pAhorcado* pa;
-	pa=(pAhorcado*)malloc(30*sizeof(pAhorcado));
-	juegos=(Juego*)malloc(30*sizeof(Juego));
-	control=LeerJuegosBin(juegos);
+	pCalc* pc;
+	juegos=LeerJuegosBin(&control);
+	pa=LeerPartidasBin(&controlP1);
+	pc=LeerPartidasCBin(&controlP2);
 	do
 	{
 	printf("Bienvenido a aPointlessApplication, eliga lo que desea hacer: \n 1.- Listas de juegos. \n 2.- Jugar. \n 3.- Mi Perfil.\n 4.- Estadisticas.\n 5.- Subir juego.\n 6.- Cerrar sesion.\n 7.- Salir.\n");
-	LeerValorInt(&opcion);								
+	while(LeerValorInt(&opcion)==-1)
+	{
+		printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.- Listas de juegos. \n 2.- Jugar. \n 3.- Mi Perfil.\n 4.- Estadisticas.\n 5.- Subir juego.\n 6.- Cerrar sesion.\n 7.- Salir.\n");
+	}								
 
 	
 		switch(opcion)
@@ -32,13 +37,17 @@ int MenuU(Usuario u)
 				ListaJuegos(juegos,control);
 				break;
 			case 2:																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		
-				Jugar(juegos, control);
+				if(Jugar(juegos, pa, pc, u.pers, control, controlP1, controlP2)==1)
+				{
+					pa=LeerPartidasBin(&controlP1);
+					pc=LeerPartidasCBin(&controlP2);
+				}
 				break;
 			case 3:
 				PerfilU(u);
 				break;
 			case 4:
-				Estadisticas();
+				Estadisticas(pa, pc, controlP1, controlP2);
 				break;
 			case 5:
 				control=SubirJuego(juegos, u.pers, control);
@@ -51,8 +60,7 @@ int MenuU(Usuario u)
 				return 1;
 				break;
 			default:
-   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.- Listas de juegos. \n 2.- Jugar. \n 3.- Mi Perfil.\n 4.- Estadisticas.\n 5.- Subir juego.\n 6.- Cerrar sesion.\n 7.- Salir.\n");
-  					LeerValorInt(&opcion);
+   				printf("Error! No es un numero o no es un numero adecuado!\n ");
 				break;
 
 		}
@@ -63,35 +71,45 @@ int MenuA(Administrador a)
 {
 	int opcion;
 	int control;
+	int controlP1;
+	int controlP2;
 	Juego* juegos;
-	juegos=(Juego*)malloc(30*sizeof(Juego));
-	control=LeerJuegosBin(juegos);
+	pAhorcado* pa;
+	pCalc* pc;
+	juegos=LeerJuegosBin(&control);
+	pa=LeerPartidasBin(&controlP1);
+	pc=LeerPartidasCBin(&controlP2);
 	do
 	{
 	printf("Bienvenido a aPointlessApplication, eliga lo que desea hacer: \n 1.- Listas de juegos. \n 2.- Jugar. \n 3.- Mi Perfil.\n 4.- Estadisticas.\n 5.- Subir juego.\n 6.- Gestion de la aplicacion.\n 7.- Cerrar sesion.\n 8.- Salir.\n");
-	scanf("%i",&opcion);
-
-
+	if(LeerValorInt(&opcion)==-1)
+	{
+		printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.- Listas de juegos. \n 2.- Jugar. \n 3.- Mi Perfil.\n 4.- Estadisticas.\n 5.- Subir juego.\n 6.- Gestion de la aplicacion.\n 7.- Cerrar sesion.\n 8.- Salir.\n");
+	}	
 		switch(opcion)
 		{
 			case 1:
 				ListaJuegos(juegos, control);
 				break;
 			case 2:
-				Jugar(juegos, control);
+				if(Jugar(juegos, pa, pc, a.pers, control, controlP1, controlP2)==1)
+				{
+					pa=LeerPartidasBin(&controlP1);
+					pc=LeerPartidasCBin(&controlP2);
+				}
 				break;
 			case 3:
 				PerfilA(a);
 				break;
 			case 4:
-				Estadisticas();
+				Estadisticas(pa, pc, controlP1, controlP2);
 				break;
 			case 5:
 				control=SubirJuego(juegos, a.pers, control);
 				break;	
 			case 6:
 				GestionAplicacion(juegos, control);
-				control=LeerJuegosBin(juegos);
+				juegos=LeerJuegosBin(&control);
 				break;			
 			case 7:
 				printf("Se cerrara la sesion.\n");
@@ -101,15 +119,9 @@ int MenuA(Administrador a)
 				return 1;
 				break;
 			default:
-				while (scanf("%i", &opcion) != 1||(opcion<1||opcion>8)) {
-   					printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.- Listas de juegos. \n 2.- Jugar. \n 3.- Mi Perfil.\n 4.- Estadisticas.\n 5.- Subir juego.\n 6.- Gestion de la aplicacion.\n 7.- Cerrar sesion.\n 8.- Salir.\n");
-  					while (getchar() != '\n');
-					 
- 				}
+   				printf("Error! No es un numero o no es un numero adecuado!\n ");
 				break;
-
 		}
-
 	}while(true);
 }
 
@@ -122,11 +134,10 @@ void ListaJuegos(Juego* j, int control1)
 	}
 	else
 	{
-	printf("Como quieres listar los juegos:\n 1.-Ordenar juegos por nombre de juego.\n 2.-Ordenarjuegos por precio del juego.");
-	while (scanf("%i", &opcion) != 1||(opcion<1||opcion>2)) 
+	printf("Como quieres listar los juegos:\n 1.-Ordenar juegos por nombre de juego.\n 2.-Ordenar juegos por precio del juego.");
+	while (LeerValorInt(&opcion)==-1||(opcion<1||opcion>2)) 
 	{
-   		printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.-Ordenar juegos por nombre de juego.\n 2.-Ordenarjuegos por precio del juego.");
-  		while (getchar() != '\n');	 
+   		printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.-Ordenar juegos por nombre de juego.\n 2.-Ordenarjuegos por precio del juego."); 
  	}
 
  	if(opcion==1)
@@ -146,9 +157,10 @@ void ListaJuegos(Juego* j, int control1)
  		}
  	}
 }
-void Jugar(Juego* j, int control1)
+int Jugar(Juego* j, pAhorcado* p1, pCalc * p2, Persona p, int control1, int control2, int control3)
 {
-	int opcion;
+	int opcion, resultado;
+	bool existe=false;
 	if(control1==0)
 	{
 		printf("No hay ningun juego introducido en la base de datos.\n");
@@ -156,22 +168,90 @@ void Jugar(Juego* j, int control1)
 	else
 	{
 	printf("Eliga uno de los juegos para jugar:\n");
-	
 	for(int i=0;i<control1;i++)
 	{
 		printf("%i.-",i+1);
 		PrintJuego(j[i]);
 	}
-	scanf("%i",&opcion);
+	while (LeerValorInt(&opcion)==-1||(opcion<1||opcion>(control1))) 
+	{
+		printf("El valor no es correcto, debe insertar un numero de la lista. \nEliga uno de los juegos para jugar:\n");
+		for(int i=0;i<control1;i++)
+		{
+			printf("%i.-",i+1);
+			PrintJuego(j[i]);
+		}
+	}
+
 	for(int i=0;i<control1;i++)
 	{
 		if(i==(opcion-1))
 		{
-			int l;
+			if(strcmp(j[i].ejecutable,"ahorcado.exe")==0)
+			{
 			system("cls");
 			//Para linux: system("clear"); 
-			l=system(j[i].ejecutable);
+			resultado=system(j[i].ejecutable);
+			for(int i=0;i<control2;i++)
+			{
+				if(strcmp(p1[i].Jugador.nick,p.nick)==0)
+				{
+					p1[i].PartidasJugadas++;
+					if(resultado==1)
+					{
+						p1[i].PartidasGanadas++;
+					}
+					existe=true;
+				}
+			}
+			if(!existe)
+			{
+				p1[control2].PartidasJugadas=1;
+				p1[control2].PartidasGanadas=resultado;
+				p1[control2].Jugador=p;
+			}
+
 			system("cls");
+			escribirPartidasBin(p1,control2+1);
+			return 1;
+			}
+			else if(strcmp(j[i].ejecutable,"CalcHumana.exe")==0)
+			{
+			system("cls");
+			//Para linux: system("clear"); 
+			resultado=system(j[i].ejecutable);
+			existe=false;
+			for(int i=0;i<control3;i++)
+			{
+				if(strcmp(p2[i].Jugador.nick,p.nick)==0)
+				{
+					p2[i].PartidasJugadas++;
+					if(resultado>p2[i].PuntMax)
+					{
+						p2[i].PuntMax==resultado;
+					}
+					existe=true;
+				}
+			}
+			if(!existe)
+			{
+				p2[control3].PartidasJugadas=1;
+				p2[i].PuntMax==resultado;
+				p1[control2].Jugador=p;
+			}
+			system("cls");
+			escribirPartidasCBin(p2,control3+1);
+			return 1;
+			}
+			else
+			{
+			system("cls");
+			//Para linux: system("clear"); 
+			system(j[i].ejecutable);
+			system("cls");
+			return 2;
+			}
+			
 		}
 	}
 	}
@@ -186,9 +266,52 @@ void PerfilA(Administrador a)
 printf("Este es tu perfil de administrador:\n");
 MostrarAdmin(a);
 }
-void Estadisticas()
+void Estadisticas(pAhorcado* p1, pCalc * p2, int control1, int control2)
 {
+	int opcion;
+	printf("De que juego desea mostrar estadisticas:\n 1.-Ahorcado.\n 2.-Calculadora Humana.\n");
+	while (LeerValorInt(&opcion)==-1||(opcion<1||opcion>2)) 
+	{
+   		printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.-Ahorcado.\n 2.-Calculadora Humana.\n");       
+ 	}
+ 	printf("En proceso. Proximamente.");
+/*
+ 	if(opcion==1)
+ 	{
+ 		if(control1==0)
+ 		{
+ 			printf("No hay estadisticas de ahorcado");
+ 		}
 
+ 		else
+ 		{
+ 		printf("Has elegido mostrar las estadisticas del ahorcado, se ordenaran por partidas ganadas:\n");
+ 		OrdenarAhorcadoPorPGanadas(p1, control1);
+ 		for(int i=0;i<control1;i++)
+ 		{
+ 			printf("%i.-",i+1);
+			MostrarPartidaAhorcado(p1[i]);
+ 		}
+ 		}
+ 	}
+ 	else
+ 	{
+ 		if(control2==0)
+ 		{
+ 			printf("No hay estadisticas de calculadora humana");
+ 		}
+ 		else
+ 		{
+ 		printf("Has elegido mostrar las estadisticas de la calculadora humana, se ordenaran por puntuacion maxima:\n");
+		OrdenarCalculadoraPorPuntMax(p2, control2);
+		for(int i=0;i<control1;i++)
+ 		{
+ 			printf("%i.-",i+1);
+			MostrarPartidaCalculadora(p2[i]);
+ 		}
+ 		}
+ 	}
+ */
 }
 int SubirJuego(Juego* j,  Persona p, int control1)
 {
@@ -202,78 +325,60 @@ int SubirJuego(Juego* j,  Persona p, int control1)
 	do
 	{
 		bienhecho=true;
-		posible=true;
 		printf("El nombre del juego es (de 1 a 14 caracteres):");
-		scanf("%s", &ju.nombre);
-		i=0;
-		while(control1>i)
+
+		if(LeerValor(ju.nombre,14)==-1)
 		{
-		if(strcmp(ju.nombre,j[i].nombre)==0)
-		{
-			printf("El nombre ya existe\n");
+			printf("El nombre del juego no es adecuado.\n");
 			bienhecho=false;
 		}
 
-		i++;
-
-		}
-		if(strlen(ju.nombre)>14)
-			{
-				printf("El nombre del juego es demasiado largo.\n");
-				posible=false;
-			}
-
-	}while(bienhecho==false||posible==false);
-	posible=false;
-	while(posible==false)
-	{
-		posible=true;
-		printf("Inserte el genero del juego (de 1 a 14 caracteres): ");
-		scanf("%s",&ju.genero);
-			if(strlen(ju.genero)>14)
-			{
-				printf("El genero del juego es demasiado largo.\n");
-				posible=false;
-			}
-
-		}
-		posible=false;
-		while(posible==false)
+		for(int i=0;control1>i;i++)
 		{
-			posible=true;
-			printf("Inserte el precio del juego (de 0 a 150 euros): ");
-			if(scanf("%i",&ju.Precio)!=1||ju.Precio<0||ju.Precio>150)
+			if(strcmp(ju.nombre,j[i].nombre)==0)
 			{
-				printf("El precio del juego no cumple las condiciones.\n");
-				posible=false;
+				printf("El nombre ya existe\n");
+				bienhecho=false;
 			}
-			while (getchar() != '\n');
+		}
+	}while(bienhecho==false);
+
+	printf("Inserte el genero del juego (de 1 a 14 caracteres): ");
+	while(LeerValor(ju.genero,14)==-1)
+	{
+		printf("El genero del juego no es adecuado.\n");
+		printf("Inserte el genero del juego (de 1 a 14 caracteres): ");
 	}
+
+	printf("Inserte el precio del juego (de 0 a 150 euros): ");
+	while(LeerValorInt(&ju.Precio)==-1||ju.Precio<0||ju.Precio>150)
+	{
+		printf("El precio del juego no cumple las condiciones.\n");
+		printf("Inserte el precio del juego (de 0 a 150 euros): ");
+	}
+
 	ju.Creador=p;
+	
 	do
 	{
-	existe=true;
-	bienhecho=true;
-	printf("El ejecutable del juego es:");
-	scanf("%s", &ju.ejecutable);
-	i=0;
-		while(control1>i)
+		existe=true;
+		bienhecho=true;
+		printf("El ejecutable del juego es:");
+		LeerValor(ju.ejecutable,14);
+		for(int i=0;control1>i;i++)
 		{
-		if(strcmp(ju.ejecutable,j[i].ejecutable)==0)
-		{
-			printf("La aplicacion ya existe\n");
-			bienhecho=false;
-		}
-
-		i++;
-
+			if(strcmp(ju.ejecutable,j[i].ejecutable)==0)
+			{
+				printf("La aplicacion ya existe\n");
+				bienhecho=false;
+			}
 		}
 		f = fopen(ju.ejecutable, "rb");
-			if(f == NULL)
-			{
-				printf("La direccion no es correcta\n");
-				existe=false;
-			}
+		if(f == NULL)
+		{
+			printf("La direccion no es correcta\n");
+			existe=false;
+		}
 		fclose(f);
 
 	}while(bienhecho==false||existe==false);
@@ -286,16 +391,13 @@ void GestionAplicacion(Juego* j, int control1)
 {
 	int opcion;
 	printf("Cual de las opciones de administrador quiere ejecutar:\n 1.-Eliminar juegos de la plataforma.\n 2.-Bloquear/Desbloquear usuarios de la plataforma.\n");
-	while (scanf("%i", &opcion) != 1||(opcion<1||opcion>2)) 
+	while (LeerValorInt(&opcion)==-1||(opcion<1||opcion>2)) 
 	{
-   		printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.-Eliminar juegos de la plataforma.\n 2.-Bloquear/Desbloquear usuarios de la plataforma.\n");
-  		while (getchar() != '\n');	            
+   		printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion:\n 1.-Eliminar juegos de la plataforma.\n 2.-Bloquear/Desbloquear usuarios de la plataforma.\n");       
  	}
 
  	if(opcion==1)
  	{ 
- 		Juego* js;
- 		js=(Juego*)malloc(sizeof(Juego)*30);
  		if(control1==0)
  		{
  			printf("No hay juegos registrados en la plataforma.\n");
@@ -308,30 +410,29 @@ void GestionAplicacion(Juego* j, int control1)
 				printf("%i.-",i+1);
 				PrintJuego(j[i]);
 			}
-			while (scanf("%i", &opcion) != 1||(opcion<1||opcion>control1)) 
+			while (LeerValorInt(&opcion)==-1||(opcion<1||opcion>control1)) 
 			{
    				printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion, eligiendo un numero de la lista:\n");
    				for(int i=0;i<control1;i++)
 				{
 					printf("%i.-",i+1);
 					PrintJuego(j[i]);
-				}
-  				while (getchar() != '\n');	 
+				}	 
  			}
  			opcion--;
  			for(int i=0;i<(control1-1);i++)
  			{
  				if(i >= opcion)
  				{
- 					js[i]=j[i+1];
+ 					j[i]=j[i+1];
  				}
  				else
  				{
- 					js[i]=j[i];
+ 					j[i]=j[i];
  				}
  			}
- 			escribirJuegosBin(js, control1-1);
- 			free(js);
+ 			escribirJuegosBin(j, control1-1);
+ 			free(j);
  		}
  		
 
@@ -340,8 +441,8 @@ void GestionAplicacion(Juego* j, int control1)
  	{
  		Usuario* us;
  		int control2;
- 		us=(Usuario*)malloc(sizeof(Usuario)*30);
- 		control2=LeerUsuariosBin(us);
+ 		//us=(Usuario*)malloc(sizeof(Usuario)*30);
+ 		us=LeerUsuariosBin(&control2);
  		if(control2==0)
  		{
  			printf("No hay usuarios registrados en la plataforma.\n");
@@ -353,16 +454,17 @@ void GestionAplicacion(Juego* j, int control1)
 			{
 				printf("%i.-",i+1);
 				MostrarUsuario(us[i]);
+				printf("\n");
 			}
-			while (scanf("%i", &opcion) != 1||(opcion<1||opcion>control2)) 
+			while (LeerValorInt(&opcion)==-1||(opcion<1||opcion>control2)) 
 			{
    				printf("Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion, eligiendo un numero de la lista:\n");
    				for(int i=0;i<control2;i++)
 				{
 					printf("%i.-",i+1);
 					MostrarUsuario(us[i]);
+					printf("\n");
 				}
-  				while (getchar() != '\n');	 
  			}
  			opcion--;
  			if(us[opcion].bloq)

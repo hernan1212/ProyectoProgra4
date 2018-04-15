@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include "cDatos.h"
+#include "IniReg.h"
+
 
 int main ()
 {

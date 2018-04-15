@@ -28,6 +28,48 @@ void OrdenarJuegoPorNombre(Juego* j, int Control)
 		}
 	}
 }
+void OrdenarAhorcadoPorPGanadas(pAhorcado* p, int Control)
+{
+	pAhorcado p1;
+	int k, i, z;
+	for(i=0; i<Control-1;i++)
+	{
+		for(k=i, z=i+1;z<Control;z++)
+		{
+			if(p[z].PartidasGanadas>p[k].PartidasGanadas)
+			{
+				k=z;
+			}
+		}
+		if(k!=i)
+		{
+			p1=p[i];
+			p[i]=p[k];
+			p[k]=p1;
+		}
+	}
+}
+void OrdenarCalculadoraPorPuntMax(pCalc* p, int Control)
+{
+	pCalc p1;
+	int k, i, z;
+	for(i=0; i<Control-1;i++)
+	{
+		for(k=i, z=i+1;z<Control;z++)
+		{
+			if(p[z].PuntMax>p[k].PuntMax)
+			{
+				k=z;
+			}
+		}
+		if(k!=i)
+		{
+			p1=p[i];
+			p[i]=p[k];
+			p[k]=p1;
+		}
+	}
+}
 void OrdenarJuegoPorPrecio(Juego* j, int Control)		
 {
 	Juego jueg;
